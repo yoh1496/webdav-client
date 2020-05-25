@@ -13,6 +13,7 @@ const move = require("./interface/moveFile.js");
 const copy = require("./interface/copyFile.js");
 const putFile = require("./interface/putFile.js");
 const stats = require("./interface/stat.js");
+const update = require("./interface/update.js");
 
 const NOOP = () => {};
 
@@ -363,6 +364,18 @@ function createClient(remoteURL, opts = {}) {
         stat: function stat(remotePath, options) {
             const getOptions = merge(runtimeOptions, options || {});
             return stats.getStat(remotePath, getOptions);
+        },
+
+        /**
+         * Update a remote object property
+         * @param {String} remotePath The path of the item
+         * @param {OptionsForAdvancedResponses=} options Options for the request
+         * @memberof ClientInterface
+         * @returns {Promise} A promise that resolves when the remote file property has been updated
+         */
+        updateProperty: function updateProperty(remotePath, options) {
+          const updateOptions = merge(runtimeOptions, options || {});
+          return update.updateProperty(remotePath, updateOptions);
         }
     };
 }
